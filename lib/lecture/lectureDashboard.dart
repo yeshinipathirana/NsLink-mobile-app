@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test/lecture/meetingListScreen.dart';
 import 'package:test/lecture/requestLeaveScreen.dart';
+import 'package:test/lecture/lecture-student MeetingDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LectureDashboard extends StatefulWidget {
@@ -156,7 +157,18 @@ class _LectureDashboardState extends State<LectureDashboard> {
                               title: 'Student Meetings',
                               imagePath:
                                   'assets/images/07.png', // Path to the image
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) =>
+                                            const LecturerMeetingDashboard(
+                                              lecturerId: '',
+                                            ),
+                                  ),
+                                );
+                              },
                             ),
                             ActionButton(
                               title: 'Add Leave',
