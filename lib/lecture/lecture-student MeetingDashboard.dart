@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test/lecture/add_slot.dart';
 
 class LecturerMeetingDashboard extends StatefulWidget {
-  final String lecturerId;
-
-  const LecturerMeetingDashboard({super.key, required this.lecturerId});
+  const LecturerMeetingDashboard({super.key});
 
   @override
   State<LecturerMeetingDashboard> createState() => _LecturerDashboardState();
@@ -17,12 +16,16 @@ class _LecturerDashboardState extends State<LecturerMeetingDashboard>
   bool _isLoading = true;
   List<Map<String, dynamic>> _bookedMeetings = [];
   List<Map<String, dynamic>> _availableSlots = [];
+  // Add Firebase Auth instance
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String? _lecturerId;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _fetchLecturerData();
+    // Get current user and fetch data
+    _getCurrentUserAndFetchData();
   }
 
   @override
@@ -31,7 +34,27 @@ class _LecturerDashboardState extends State<LecturerMeetingDashboard>
     super.dispose();
   }
 
+  Future<void> _getCurrentUserAndFetchData() async {
+    final User? user = _auth.currentUser;
+    if (user != null) {
+      setState(() {
+        _lecturerId = user.uid;
+      });
+      await _fetchLecturerData();
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      // Handle the case when no user is logged in
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('No user logged in')));
+    }
+  }
+
   Future<void> _fetchLecturerData() async {
+    if (_lecturerId == null) return;
+
     setState(() {
       _isLoading = true;
     });
@@ -41,14 +64,14 @@ class _LecturerDashboardState extends State<LecturerMeetingDashboard>
       final bookingsQuery =
           await FirebaseFirestore.instance
               .collection('bookings')
-              .where('lecturerId', isEqualTo: widget.lecturerId)
+              .where('lecturerId', isEqualTo: _lecturerId)
               .get();
 
       // Fetch available slots from the lecturer's slots subcollection
       final slotsQuery =
           await FirebaseFirestore.instance
               .collection('lecturers')
-              .doc(widget.lecturerId)
+              .doc(_lecturerId)
               .collection('slots')
               .where('booked', isEqualTo: false)
               .get();
@@ -75,11 +98,13 @@ class _LecturerDashboardState extends State<LecturerMeetingDashboard>
   }
 
   Future<void> _addNewSlot(String date, String time) async {
+    if (_lecturerId == null) return;
+
     try {
       // Add a new slot to the Firestore database
       await FirebaseFirestore.instance
           .collection('lecturers')
-          .doc(widget.lecturerId)
+          .doc(_lecturerId)
           .collection('slots')
           .add({
             'date': date,
@@ -150,10 +175,12 @@ class _LecturerDashboardState extends State<LecturerMeetingDashboard>
   }
 
   Future<void> _removeSlot(String slotId) async {
+    if (_lecturerId == null) return;
+
     try {
       await FirebaseFirestore.instance
           .collection('lecturers')
-          .doc(widget.lecturerId)
+          .doc(_lecturerId)
           .collection('slots')
           .doc(slotId)
           .delete();

@@ -163,9 +163,7 @@ class _LectureDashboardState extends State<LectureDashboard> {
                                   MaterialPageRoute(
                                     builder:
                                         (context) =>
-                                            const LecturerMeetingDashboard(
-                                              lecturerId: '',
-                                            ),
+                                            const LecturerMeetingDashboard(),
                                   ),
                                 );
                               },

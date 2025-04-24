@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class AddSlot extends StatefulWidget {
   final Function(String, String) onSlotAdded;
 
-  const AddSlot({Key? key, required this.onSlotAdded}) : super(key: key);
+  const AddSlot({super.key, required this.onSlotAdded});
 
   @override
   State<AddSlot> createState() => _AddSlotState();
@@ -200,7 +200,7 @@ class _AddSlotState extends State<AddSlot> {
                         _durationOptions.map((int minutes) {
                           return DropdownMenuItem<int>(
                             value: minutes,
-                            child: Text('${minutes} minutes'),
+                            child: Text('$minutes minutes'),
                           );
                         }).toList(),
                     onChanged: (int? newValue) {

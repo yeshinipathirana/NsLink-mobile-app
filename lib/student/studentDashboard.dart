@@ -147,7 +147,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LectureListScreen(),
+                              builder: (context) => LecturerSelectionPage(),
                             ),
                           );
                         },
