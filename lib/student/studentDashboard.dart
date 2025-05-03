@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test/library/frontend/screens/home_screen.dart';
 import 'package:test/student/lectureListScreen.dart';
 import 'package:test/student/profileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -175,7 +176,14 @@ class _StudentDashboardState extends State<StudentDashboard> {
                       ActionButton(
                         title: 'Library Rooms',
                         imageAsset: 'assets/images/04.png',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LibraryHomeScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

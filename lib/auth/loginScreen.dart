@@ -5,6 +5,7 @@ import 'package:test/lecture/lectureDashboard.dart';
 import 'package:test/student/studentDashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test/library/frontend/screens/admin/admin_login_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -96,6 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => StudentDashboard()),
+          );
+        } else if (role == 'libraryadmin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AdminLoginScreen()),
           );
         } else if (role == 'lecture') {
           Navigator.pushReplacement(
@@ -292,6 +298,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
+                      ),
+                    ),
+                    const SizedBox(height: 24), // Optional spacing
+
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AdminLoginScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Library admin',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF494949),
+                          fontFamily: 'Inter',
+                          decoration:
+                              TextDecoration
+                                  .underline, // Optional to indicate clickability
+                        ),
                       ),
                     ),
                   ],
