@@ -3,6 +3,7 @@ import 'package:test/library/frontend/screens/home_screen.dart';
 import 'package:test/student/lectureListScreen.dart';
 import 'package:test/student/profileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test/student/assignmentgroup_result_screen.dart';
 
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({super.key});
@@ -171,8 +172,16 @@ class _StudentDashboardState extends State<StudentDashboard> {
                       ActionButton(
                         title: 'Assignment Groups',
                         imageAsset: 'assets/images/06.png',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ResultScreen(),
+                            ),
+                          );
+                        },
                       ),
+
                       ActionButton(
                         title: 'Library Rooms',
                         imageAsset: 'assets/images/04.png',
