@@ -33,8 +33,9 @@ class Notification {
       if (timestamp == null) return DateTime.now();
       if (timestamp is Timestamp) return timestamp.toDate();
       if (timestamp is DateTime) return timestamp;
-      if (timestamp is int)
+      if (timestamp is int) {
         return DateTime.fromMillisecondsSinceEpoch(timestamp);
+      }
       if (timestamp is String) return DateTime.parse(timestamp);
       return null;
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test/library/frontend/screens/admin/admin_panel_screen.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -54,10 +55,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                       children: [
                         const Text(
                           'Username',
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.black54, fontSize: 14),
                         ),
                         const SizedBox(height: 8),
                         TextFormField(
@@ -69,8 +67,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade300),
+                              borderSide: BorderSide(
+                                color: Colors.grey.shade300,
+                              ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -92,10 +91,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                       children: [
                         const Text(
                           'Password',
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.black54, fontSize: 14),
                         ),
                         const SizedBox(height: 8),
                         TextFormField(
@@ -108,17 +104,20 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade300),
+                              borderSide: BorderSide(
+                                color: Colors.grey.shade300,
+                              ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
                             suffixIcon: IconButton(
-                              icon: Icon(_showPassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+                              icon: Icon(
+                                _showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _showPassword = !_showPassword;
@@ -159,18 +158,20 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: _isLoading
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.white,
+                            child:
+                                _isLoading
+                                    ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.white,
+                                            ),
                                       ),
-                                    ),
-                                  )
-                                : const Text('Login'),
+                                    )
+                                    : const Text('Login'),
                           ),
                         ),
                       ],
@@ -198,7 +199,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
       // Check if they match the default admin credentials
       if (username == 'Admin' && password == 'Admin123') {
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, '/admin_panel');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminPanelScreen()),
+        );
       } else {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(

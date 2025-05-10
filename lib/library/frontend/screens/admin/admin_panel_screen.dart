@@ -41,18 +41,9 @@ class _AdminPanelScreenState extends State<AdminPanelScreen>
           unselectedLabelColor: Colors.grey,
           indicatorColor: Colors.teal,
           tabs: const [
-            Tab(
-              icon: Icon(Icons.pending_actions),
-              text: 'Pending',
-            ),
-            Tab(
-              icon: Icon(Icons.meeting_room),
-              text: 'Rooms',
-            ),
-            Tab(
-              icon: Icon(Icons.bar_chart),
-              text: 'Reports',
-            ),
+            Tab(icon: Icon(Icons.pending_actions), text: 'Pending'),
+            Tab(icon: Icon(Icons.meeting_room), text: 'Rooms'),
+            Tab(icon: Icon(Icons.bar_chart), text: 'Reports'),
           ],
         ),
       ),
@@ -64,15 +55,16 @@ class _AdminPanelScreenState extends State<AdminPanelScreen>
           _ReportsTab(),
         ],
       ),
-      floatingActionButton: _tabController.index == 1
-          ? FloatingActionButton(
-              onPressed: () {
-                _roomsTabKey.currentState?.showAddRoomDialog();
-              },
-              child: const Icon(Icons.add),
-              backgroundColor: Colors.teal,
-            )
-          : null,
+      floatingActionButton:
+          _tabController.index == 1
+              ? FloatingActionButton(
+                onPressed: () {
+                  _roomsTabKey.currentState?.showAddRoomDialog();
+                },
+                backgroundColor: Colors.teal,
+                child: const Icon(Icons.add),
+              )
+              : null,
     );
   }
 
@@ -124,17 +116,19 @@ class _PendingBookingsTab extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.check, color: Colors.green),
-                      onPressed: () => _databaseService.updateBookingStatus(
-                        booking.id,
-                        'approved',
-                      ),
+                      onPressed:
+                          () => _databaseService.updateBookingStatus(
+                            booking.id,
+                            'approved',
+                          ),
                     ),
                     IconButton(
                       icon: const Icon(Icons.close, color: Colors.red),
-                      onPressed: () => _databaseService.updateBookingStatus(
-                        booking.id,
-                        'rejected',
-                      ),
+                      onPressed:
+                          () => _databaseService.updateBookingStatus(
+                            booking.id,
+                            'rejected',
+                          ),
                     ),
                   ],
                 ),
@@ -148,7 +142,7 @@ class _PendingBookingsTab extends StatelessWidget {
 }
 
 class _RoomsTab extends StatefulWidget {
-  const _RoomsTab({Key? key}) : super(key: key);
+  const _RoomsTab({super.key});
   @override
   State<_RoomsTab> createState() => _RoomsTabState();
 }
@@ -204,13 +198,7 @@ class _RoomsTabState extends State<_RoomsTab> {
           startTime.hour,
           startTime.minute,
         ),
-        DateTime(
-          date.year,
-          date.month,
-          date.day,
-          endTime.hour,
-          endTime.minute,
-        ),
+        DateTime(date.year, date.month, date.day, endTime.hour, endTime.minute),
       );
 
       if (!mounted) return;
@@ -234,69 +222,79 @@ class _RoomsTabState extends State<_RoomsTab> {
   }
 
   void showAddRoomDialog() {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final nameController = TextEditingController();
     final capacityController = TextEditingController();
     bool isAvailable = true;
     showDialog(
       context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setState) => AlertDialog(
-          title: const Text('Add Room'),
-          content: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Room Name'),
-                  validator: (value) =>
-                      value == null || value.isEmpty ? 'Enter room name' : null,
+      builder:
+          (dialogContext) => StatefulBuilder(
+            builder:
+                (context, setState) => AlertDialog(
+                  title: const Text('Add Room'),
+                  content: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          controller: nameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Room Name',
+                          ),
+                          validator:
+                              (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Enter room name'
+                                      : null,
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: capacityController,
+                          decoration: const InputDecoration(
+                            labelText: 'Capacity',
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            final cap = int.tryParse(value ?? '');
+                            if (cap == null || cap <= 0)
+                              return 'Enter valid capacity';
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        SwitchListTile(
+                          title: const Text('Available'),
+                          value: isAvailable,
+                          onChanged: (value) {
+                            setState(() => isAvailable = value);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(dialogContext),
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          await _databaseService.addRoom(
+                            name: nameController.text,
+                            capacity: int.parse(capacityController.text),
+                            isAvailable: isAvailable,
+                          );
+                          if (mounted) Navigator.pop(dialogContext);
+                        }
+                      },
+                      child: const Text('Add'),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: capacityController,
-                  decoration: const InputDecoration(labelText: 'Capacity'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    final cap = int.tryParse(value ?? '');
-                    if (cap == null || cap <= 0) return 'Enter valid capacity';
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                SwitchListTile(
-                  title: const Text('Available'),
-                  value: isAvailable,
-                  onChanged: (value) {
-                    setState(() => isAvailable = value);
-                  },
-                ),
-              ],
-            ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  await _databaseService.addRoom(
-                    name: nameController.text,
-                    capacity: int.parse(capacityController.text),
-                    isAvailable: isAvailable,
-                  );
-                  if (mounted) Navigator.pop(dialogContext);
-                }
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -316,9 +314,7 @@ class _RoomsTabState extends State<_RoomsTab> {
         final rooms = snapshot.data ?? [];
 
         if (rooms.isEmpty) {
-          return const Center(
-            child: Text('No rooms available'),
-          );
+          return const Center(child: Text('No rooms available'));
         }
 
         return ListView.builder(
@@ -326,10 +322,7 @@ class _RoomsTabState extends State<_RoomsTab> {
           itemBuilder: (context, index) {
             final room = rooms[index];
             return Card(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: ListTile(
                 title: Text('Room ${room.name}'),
                 subtitle: Text('Capacity: ${room.capacity}'),
@@ -342,16 +335,17 @@ class _RoomsTabState extends State<_RoomsTab> {
                       _databaseService.deleteRoom(room.id);
                     }
                   },
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(
-                      value: 'block',
-                      child: Text('Block Time Slot'),
-                    ),
-                    const PopupMenuItem(
-                      value: 'delete',
-                      child: Text('Delete Room'),
-                    ),
-                  ],
+                  itemBuilder:
+                      (context) => [
+                        const PopupMenuItem(
+                          value: 'block',
+                          child: Text('Block Time Slot'),
+                        ),
+                        const PopupMenuItem(
+                          value: 'delete',
+                          child: Text('Delete Room'),
+                        ),
+                      ],
                 ),
               ),
             );
@@ -397,16 +391,18 @@ class _ReportsTab extends StatelessWidget {
           }
         }
 
-        final mostBookedRoom = roomBookings.isEmpty
-            ? 'None'
-            : roomBookings.entries
-                .reduce((a, b) => a.value > b.value ? a : b)
-                .key;
-        final leastBookedRoom = roomBookings.isEmpty
-            ? 'None'
-            : roomBookings.entries
-                .reduce((a, b) => a.value < b.value ? a : b)
-                .key;
+        final mostBookedRoom =
+            roomBookings.isEmpty
+                ? 'None'
+                : roomBookings.entries
+                    .reduce((a, b) => a.value > b.value ? a : b)
+                    .key;
+        final leastBookedRoom =
+            roomBookings.isEmpty
+                ? 'None'
+                : roomBookings.entries
+                    .reduce((a, b) => a.value < b.value ? a : b)
+                    .key;
 
         // Calculate average booking duration
         final totalDuration = bookings.fold<Duration>(
@@ -425,30 +421,21 @@ class _ReportsTab extends StatelessWidget {
               children: [
                 const Text(
                   'Reports',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 24),
-                _buildReportCard(
-                  'Booking Statistics',
-                  [
-                    'Total Bookings: $totalBookings',
-                    'Approved Bookings: $approvedBookings',
-                    'Pending Bookings: $pendingBookings',
-                    'Rejected Bookings: $rejectedBookings',
-                  ],
-                ),
+                _buildReportCard('Booking Statistics', [
+                  'Total Bookings: $totalBookings',
+                  'Approved Bookings: $approvedBookings',
+                  'Pending Bookings: $pendingBookings',
+                  'Rejected Bookings: $rejectedBookings',
+                ]),
                 const SizedBox(height: 16),
-                _buildReportCard(
-                  'Room Utilization',
-                  [
-                    'Most Booked Room: $mostBookedRoom',
-                    'Least Booked Room: $leastBookedRoom',
-                    'Average Booking Duration: ${averageDuration.toStringAsFixed(1)} hours',
-                  ],
-                ),
+                _buildReportCard('Room Utilization', [
+                  'Most Booked Room: $mostBookedRoom',
+                  'Least Booked Room: $leastBookedRoom',
+                  'Average Booking Duration: ${averageDuration.toStringAsFixed(1)} hours',
+                ]),
               ],
             ),
           );
@@ -468,16 +455,15 @@ class _ReportsTab extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            ...items.map((item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(item),
-                )),
+            ...items.map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(item),
+              ),
+            ),
           ],
         ),
       ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test/student/assignmentgroup_search_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key});

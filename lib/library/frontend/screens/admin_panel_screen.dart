@@ -13,81 +13,96 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
   final DatabaseService _databaseService = DatabaseService();
 
   void _showRoomDialog({Room? room}) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final nameController = TextEditingController(text: room?.name ?? '');
     final capacityController = TextEditingController(
-        text: room != null ? room.capacity.toString() : '');
+      text: room != null ? room.capacity.toString() : '',
+    );
     bool isAvailable = room?.isAvailable ?? true;
 
     showDialog(
       context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setState) => AlertDialog(
-          title: Text(room == null ? 'Add Room' : 'Edit Room'),
-          content: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Room Name'),
-                  validator: (value) =>
-                      value == null || value.isEmpty ? 'Enter room name' : null,
+      builder:
+          (dialogContext) => StatefulBuilder(
+            builder:
+                (context, setState) => AlertDialog(
+                  title: Text(room == null ? 'Add Room' : 'Edit Room'),
+                  content: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          controller: nameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Room Name',
+                          ),
+                          validator:
+                              (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Enter room name'
+                                      : null,
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: capacityController,
+                          decoration: const InputDecoration(
+                            labelText: 'Capacity',
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            final cap = int.tryParse(value ?? '');
+                            if (cap == null || cap <= 0)
+                              return 'Enter valid capacity';
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        SwitchListTile(
+                          title: const Text('Available'),
+                          value: isAvailable,
+                          onChanged: (value) {
+                            setState(() => isAvailable = value);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(dialogContext),
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          if (room == null) {
+                            // Add new room
+                            await _databaseService.addRoom(
+                              name: nameController.text,
+                              capacity: int.parse(capacityController.text),
+                              isAvailable: isAvailable,
+                            );
+                          } else {
+                            // Update room
+                            await _databaseService.roomsCollection
+                                .doc(room.id)
+                                .update({
+                                  'name': nameController.text,
+                                  'capacity': int.parse(
+                                    capacityController.text,
+                                  ),
+                                  'isAvailable': isAvailable,
+                                });
+                          }
+                          if (mounted) Navigator.pop(dialogContext);
+                        }
+                      },
+                      child: Text(room == null ? 'Add' : 'Save'),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: capacityController,
-                  decoration: const InputDecoration(labelText: 'Capacity'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    final cap = int.tryParse(value ?? '');
-                    if (cap == null || cap <= 0) return 'Enter valid capacity';
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                SwitchListTile(
-                  title: const Text('Available'),
-                  value: isAvailable,
-                  onChanged: (value) {
-                    setState(() => isAvailable = value);
-                  },
-                ),
-              ],
-            ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  if (room == null) {
-                    // Add new room
-                    await _databaseService.addRoom(
-                      name: nameController.text,
-                      capacity: int.parse(capacityController.text),
-                      isAvailable: isAvailable,
-                    );
-                  } else {
-                    // Update room
-                    await _databaseService.roomsCollection.doc(room.id).update({
-                      'name': nameController.text,
-                      'capacity': int.parse(capacityController.text),
-                      'isAvailable': isAvailable,
-                    });
-                  }
-                  if (mounted) Navigator.pop(dialogContext);
-                }
-              },
-              child: Text(room == null ? 'Add' : 'Save'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -126,8 +141,10 @@ class _AdminPanelScreenState extends State<AdminPanelScreen> {
                   leading: CircleAvatar(
                     backgroundColor:
                         room.isAvailable ? Colors.green : Colors.red,
-                    child: Text(room.name,
-                        style: const TextStyle(color: Colors.white)),
+                    child: Text(
+                      room.name,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                   title: Text('Room \\${room.name}'),
                   subtitle: Text('Capacity: \\${room.capacity}'),

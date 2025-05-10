@@ -300,7 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                       ),
                     ),
-                    const SizedBox(height: 24), // Optional spacing
+                    const SizedBox(height: 54), // Optional spacing
 
                     GestureDetector(
                       onTap: () {
@@ -314,7 +314,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         'Library admin',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF494949),
                           fontFamily: 'Inter',
