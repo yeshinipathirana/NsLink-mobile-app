@@ -258,8 +258,9 @@ class _RoomsTabState extends State<_RoomsTab> {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             final cap = int.tryParse(value ?? '');
-                            if (cap == null || cap <= 0)
+                            if (cap == null || cap <= 0) {
                               return 'Enter valid capacity';
+                            }
                             return null;
                           },
                         ),

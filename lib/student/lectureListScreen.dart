@@ -1,26 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:test/lecture/lectureDashboard.dart';
 import 'package:test/student/bookingSlots.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.pink, fontFamily: 'Roboto'),
-      home: const LecturerSelectionPage(),
-    );
-  }
-}
 
 class LecturerSelectionPage extends StatelessWidget {
   const LecturerSelectionPage({super.key});
@@ -31,6 +12,16 @@ class LecturerSelectionPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Select Lecturer'),
         backgroundColor: Colors.green,
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LectureDashboard()),
+            );
+          },
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('lecturers').snapshots(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:test/lecture/lectureDashboard.dart';
 import 'package:test/student/assignmentgroup_search_screen.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -68,6 +69,16 @@ class _ResultScreenState extends State<ResultScreen> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.green,
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LectureDashboard()),
+            );
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),

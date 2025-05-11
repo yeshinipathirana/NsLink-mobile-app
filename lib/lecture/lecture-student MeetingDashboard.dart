@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test/lecture/add_slot.dart';
+import 'package:test/lecture/lectureDashboard.dart';
 
 class LecturerMeetingDashboard extends StatefulWidget {
   const LecturerMeetingDashboard({super.key});
@@ -254,6 +255,16 @@ class _LecturerDashboardState extends State<LecturerMeetingDashboard>
       appBar: AppBar(
         title: const Text('Lecturer Dashboard'),
         backgroundColor: Colors.green,
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LectureDashboard()),
+            );
+          },
+        ),
         bottom: TabBar(
           controller: _tabController,
           tabs: const [

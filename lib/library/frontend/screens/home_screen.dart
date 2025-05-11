@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test/lecture/lectureDashboard.dart';
 import '../../backend/services/database_service.dart';
 import '../screens/room_booking_screen.dart';
 import '../../backend/models/room.dart';
@@ -37,6 +38,16 @@ class _HomeScreenState extends State<LibraryHomeScreen> {
         title: const Text(
           'Library Room Booking',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+        ),
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LectureDashboard()),
+            );
+          },
         ),
         actions: [
           StreamBuilder<int>(
