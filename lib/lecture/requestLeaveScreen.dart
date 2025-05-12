@@ -154,7 +154,7 @@ class _RequestLeaveScreenState extends State<RequestLeaveScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Leave added successfully! 🎉'),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.teal,
           duration: Duration(seconds: 2),
         ),
       );

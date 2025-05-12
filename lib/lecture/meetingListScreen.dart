@@ -131,7 +131,7 @@ class RequestCard extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF26C485),
+                backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
                 minimumSize: const Size(80, 36),
                 shape: RoundedRectangleBorder(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:test/lecture/lectureDashboard.dart';
+
 import 'package:test/student/assignmentgroup_search_screen.dart';
+import 'package:test/student/studentDashboard.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key});
@@ -68,14 +69,14 @@ class _ResultScreenState extends State<ResultScreen> {
           'Faculty Selection',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const LectureDashboard()),
+              MaterialPageRoute(builder: (context) => const StudentDashboard()),
             );
           },
         ),
@@ -91,7 +92,7 @@ class _ResultScreenState extends State<ResultScreen> {
         child:
             _isLoading
                 ? const Center(
-                  child: CircularProgressIndicator(color: Colors.green),
+                  child: CircularProgressIndicator(color: Colors.teal),
                 )
                 : Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -109,7 +110,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       Expanded(
                         child: RefreshIndicator(
                           onRefresh: _loadFacultyCounts,
-                          color: Colors.green,
+                          color: Colors.teal,
                           child: ListView(
                             children: [
                               _buildFacultyItem(
@@ -169,13 +170,13 @@ class _ResultScreenState extends State<ResultScreen> {
         margin: const EdgeInsets.symmetric(vertical: 8.0),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: ListTile(
-          leading: const Icon(Icons.school, color: Colors.green),
+          leading: const Icon(Icons.school, color: Colors.teal),
           title: Text(
             title,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Text('$moduleCount groups available'),
-          trailing: const Icon(Icons.arrow_forward_ios, color: Colors.green),
+          trailing: const Icon(Icons.arrow_forward_ios, color: Colors.teal),
         ),
       ),
     );

@@ -113,7 +113,7 @@ class _AddSlotState extends State<AddSlot> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Available Slot"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
       ),
       body: Form(
         key: _formKey,
@@ -242,7 +242,7 @@ class _AddSlotState extends State<AddSlot> {
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.teal,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 40,
                       vertical: 15,

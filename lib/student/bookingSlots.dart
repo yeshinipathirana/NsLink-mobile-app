@@ -313,7 +313,7 @@ class _BookingFormPageState extends State<BookingFormPage> {
                   onPressed:
                       (_isSubmitting || _isUploading) ? null : _submitForm,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00A884),
+                    backgroundColor: Colors.teal,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),

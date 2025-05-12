@@ -254,7 +254,7 @@ class _LecturerDashboardState extends State<LecturerMeetingDashboard>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lecturer Dashboard'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -382,7 +382,7 @@ class _LecturerDashboardState extends State<LecturerMeetingDashboard>
                                                 Text(
                                                   'Available',
                                                   style: TextStyle(
-                                                    color: Colors.green,
+                                                    color: Colors.teal,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),

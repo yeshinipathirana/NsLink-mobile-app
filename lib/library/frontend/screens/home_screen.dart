@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test/lecture/lectureDashboard.dart';
+import 'package:test/student/studentDashboard.dart';
 import '../../backend/services/database_service.dart';
 import '../screens/room_booking_screen.dart';
 import '../../backend/models/room.dart';
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<LibraryHomeScreen> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const LectureDashboard()),
+              MaterialPageRoute(builder: (context) => const StudentDashboard()),
             );
           },
         ),

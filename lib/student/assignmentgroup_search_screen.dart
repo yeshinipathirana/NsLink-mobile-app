@@ -162,7 +162,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('You have successfully enrolled!'),
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.teal,
             duration: Duration(seconds: 2),
           ),
         );
@@ -230,7 +230,7 @@ class _SearchScreenState extends State<SearchScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Back', style: TextStyle(color: Colors.green)),
+              child: const Text('Back', style: TextStyle(color: Colors.teal)),
             ),
             ElevatedButton(
               onPressed:
@@ -241,7 +241,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       }
                       : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
                 disabledBackgroundColor: Colors.grey,
               ),
@@ -261,7 +261,7 @@ class _SearchScreenState extends State<SearchScreen> {
           widget.facultyName,
           style: const TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
@@ -280,13 +280,13 @@ class _SearchScreenState extends State<SearchScreen> {
               TextField(
                 controller: searchController,
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search, color: Colors.green),
+                  prefixIcon: const Icon(Icons.search, color: Colors.teal),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: const BorderSide(color: Colors.green),
+                    borderSide: const BorderSide(color: Colors.teal),
                   ),
                   hintText: 'Search modules...',
                 ),
@@ -309,7 +309,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 child:
                     _isLoading
                         ? const Center(
-                          child: CircularProgressIndicator(color: Colors.green),
+                          child: CircularProgressIndicator(color: Colors.teal),
                         )
                         : filteredModules.isEmpty
                         ? const Center(
@@ -349,7 +349,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ).then((_) => _loadModules()); // Refresh when returning
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.teal,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     shape: RoundedRectangleBorder(
@@ -389,13 +389,13 @@ class _SearchScreenState extends State<SearchScreen> {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Colors.teal,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               const Spacer(),
-              const Divider(color: Colors.green),
+              const Divider(color: Colors.teal),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -404,7 +404,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     '${module.availableSpaces}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                      color: Colors.teal,
                     ),
                   ),
                 ],

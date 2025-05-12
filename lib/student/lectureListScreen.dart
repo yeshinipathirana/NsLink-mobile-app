@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:test/lecture/lectureDashboard.dart';
+
 import 'package:test/student/bookingSlots.dart';
+import 'package:test/student/studentDashboard.dart';
 
 class LecturerSelectionPage extends StatelessWidget {
   const LecturerSelectionPage({super.key});
@@ -11,14 +12,14 @@ class LecturerSelectionPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Lecturer'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const LectureDashboard()),
+              MaterialPageRoute(builder: (context) => const StudentDashboard()),
             );
           },
         ),
@@ -198,7 +199,7 @@ class _LecturePageState extends State<LecturePage> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.green),
+            icon: const Icon(Icons.notifications, color: Colors.teal),
             onPressed: () {},
           ),
         ],
@@ -221,7 +222,7 @@ class _LecturePageState extends State<LecturePage> {
             ),
             Text(
               lecturerEmail,
-              style: const TextStyle(color: Colors.green, fontSize: 16),
+              style: const TextStyle(color: Colors.teal, fontSize: 16),
             ),
             const SizedBox(height: 30),
             Padding(
@@ -256,7 +257,7 @@ class _LecturePageState extends State<LecturePage> {
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.green.withOpacity(0.3),
+                                    color: Colors.teal.withOpacity(0.3),
                                     spreadRadius: 2,
                                     blurRadius: 5,
                                     offset: const Offset(0, 3),
@@ -288,7 +289,7 @@ class _LecturePageState extends State<LecturePage> {
                                         backgroundColor:
                                             isSlotBooked
                                                 ? Colors.grey
-                                                : Colors.green,
+                                                : Colors.teal,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                             10,

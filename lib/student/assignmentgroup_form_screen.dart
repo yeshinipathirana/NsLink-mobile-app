@@ -111,7 +111,7 @@ class _FormScreenState extends State<FormScreen> {
           'Add New Group',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SafeArea(
@@ -130,7 +130,7 @@ class _FormScreenState extends State<FormScreen> {
                     hintText: 'Enter module name',
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
+                      borderSide: BorderSide(color: Colors.teal),
                     ),
                   ),
                   validator: (value) {
